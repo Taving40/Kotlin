@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@drawable/ic_baseline_home_24"/>
+
+        <item
+            android:id="@+id/nav_message"
+            android:title="Message"
+            android:icon="@drawable/ic_baseline_message_24"/>
+
+        <item
+            android:id="@+id/nav_sync"
+            android:title="Sync"
+            android:icon="@drawable/ic_baseline_sync_24"/>
+
+        <item
+            android:id="@+id/nav_trash"
+            android:title="Trash"
+            android:icon="@drawable/ic_baseline_delete_24"/>
+
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings"
+            android:icon="@drawable/ic_baseline_settings_24"/>
+
+        <item android:title="Profile">
+
+            <menu>
+
+                <group>
+
+                <item
+                    android:id="@+id/nav_login"
+                    android:title="Login"
+                    android:icon="@drawable/ic_baseline_login_24"/>
+
+                </group>
+
+            </menu>
+
+        </item>
+
+        <item android:title="Communicate">
+
+            <menu>
+
+                <group>
+
+                <item
+                    android:id="@+id/nav_share"
+                    android:title="Share"
+                    android:icon="@drawable/ic_baseline_share_24"/>
+
+                <item
+                    android:id="@+id/nav_camera"
+                    android:title="Take a photo"
+                    android:icon="@drawable/ic_baseline_camera_alt_24"/>
+
+                </group>
+
+            </menu>
+
+        </item>
+
+    </group>
+
+
+
+
+
+
+
+
+</menu>
