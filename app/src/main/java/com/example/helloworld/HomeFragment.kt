@@ -1,12 +1,17 @@
 package com.example.helloworld
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
+import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.w3c.dom.Text
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment() {
@@ -14,7 +19,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var newRecyclerView: RecyclerView
     private lateinit var newArrayList: ArrayList<Item>
-    lateinit var imageId: Array<Int>
+    private lateinit var tempArrayList: ArrayList<Item>
+    private lateinit var searchbar: TextView
     lateinit var content: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +52,97 @@ class HomeFragment : Fragment() {
         newRecyclerView.layoutManager = LinearLayoutManager(inflated.context)
         newRecyclerView.setHasFixedSize(true)
         newArrayList = arrayListOf<Item>()
+        tempArrayList = arrayListOf<Item>()
 
         getUserData()
 
-        newRecyclerView.adapter = ItemAdapter(newArrayList)
+        newRecyclerView.adapter = ItemAdapter(tempArrayList)
+
+        searchbar = inflated.findViewById(R.id.search_action)
+        searchbar.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                return;
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(p0 != null){
+                    if(p0.isNotEmpty()){
+
+                        tempArrayList.clear()
+
+                        //get the searchtext to lowercase
+                        var searchText: String = ""
+                        p0.forEach {
+                            searchText = searchText.plus(it.lowercase(Locale.getDefault()))
+                        }
+
+                        newArrayList.forEach{
+                            val content = it.content.lowercase(Locale.getDefault())
+                            if(it.content.lowercase(Locale.getDefault()).contains(searchText)){
+                                tempArrayList.add(it)
+                            }
+                        }
+
+                        newRecyclerView.adapter!!.notifyDataSetChanged()
+
+
+                    } else { //when searchbar is empty show all
+
+                        tempArrayList.clear()
+                        tempArrayList.addAll(newArrayList)
+                        newRecyclerView.adapter!!.notifyDataSetChanged()
+                    }
+                }
+                println(tempArrayList)
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                return;
+            }
+
+        })
+//        val searchView = searchbar?.actionView as SearchView
+//
+//        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+//
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                TODO("Not required")
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//
+//                tempArrayList.clear()
+//                val searchText = newText!!.lowercase(Locale.getDefault())
+//
+//                if (searchText.isNotEmpty()){
+//
+//                    newArrayList.forEach{
+//
+//                        if(it.content.lowercase(Locale.getDefault()).contains(searchText)){
+//                            tempArrayList.add(it)
+//                        }
+//                    }
+//
+//                    newRecyclerView.adapter!!.notifyDataSetChanged()
+//
+//                } else { //if search is empty show all
+//
+//                    tempArrayList.clear()
+//                    tempArrayList.addAll(newArrayList)
+//                    newRecyclerView.adapter!!.notifyDataSetChanged()
+//
+//                }
+//
+//
+//
+//                return false
+//            }
+//
+//
+//        })
+
+
+
 
         return inflated
     }
@@ -62,6 +155,8 @@ class HomeFragment : Fragment() {
             newArrayList.add(item)
 
         }
+
+        tempArrayList.addAll(newArrayList)
 
     }
 

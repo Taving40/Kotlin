@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import de.hdodenhof.circleimageview.CircleImageView
+
 
 class ItemAdapter(private val itemsList: ArrayList<Item>): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
@@ -19,7 +19,6 @@ class ItemAdapter(private val itemsList: ArrayList<Item>): RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val currentItem = itemsList[position]
-//        holder.itemImage.setImageResource(currentItem.imageIndex)
         holder.itemContent.text = currentItem.content
     }
 
@@ -29,7 +28,6 @@ class ItemAdapter(private val itemsList: ArrayList<Item>): RecyclerView.Adapter<
 
     class ItemViewHolder( itemView: View): RecyclerView.ViewHolder(itemView){
 
-//        val itemImage : CircleImageView = itemView.findViewById(R.id.item_image)
         val itemContent : TextView = itemView.findViewById(R.id.item_content)
     }
 }
