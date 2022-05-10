@@ -58,6 +58,7 @@ class HomeFragment : Fragment() {
 
         newRecyclerView.adapter = ItemAdapter(tempArrayList)
 
+        //add the searchbar listener
         searchbar = inflated.findViewById(R.id.search_action)
         searchbar.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -101,48 +102,6 @@ class HomeFragment : Fragment() {
             }
 
         })
-//        val searchView = searchbar?.actionView as SearchView
-//
-//        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-//
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                TODO("Not required")
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//
-//                tempArrayList.clear()
-//                val searchText = newText!!.lowercase(Locale.getDefault())
-//
-//                if (searchText.isNotEmpty()){
-//
-//                    newArrayList.forEach{
-//
-//                        if(it.content.lowercase(Locale.getDefault()).contains(searchText)){
-//                            tempArrayList.add(it)
-//                        }
-//                    }
-//
-//                    newRecyclerView.adapter!!.notifyDataSetChanged()
-//
-//                } else { //if search is empty show all
-//
-//                    tempArrayList.clear()
-//                    tempArrayList.addAll(newArrayList)
-//                    newRecyclerView.adapter!!.notifyDataSetChanged()
-//
-//                }
-//
-//
-//
-//                return false
-//            }
-//
-//
-//        })
-
-
-
 
         return inflated
     }

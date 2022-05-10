@@ -1,59 +1,65 @@
 package com.example.helloworld
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ShareFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ShareFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var buttonShare: Button
+    private lateinit var textToShare: EditText
+    private lateinit var emailToShare: EditText
+    private lateinit var subjectToShare: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_share, container, false)
+        val inflated = inflater.inflate(R.layout.fragment_share, container, false)
+
+        buttonShare = inflated.findViewById(R.id.buttonShare)
+        textToShare = inflated.findViewById(R.id.textToShare)
+        emailToShare = inflated.findViewById(R.id.emailToShare)
+        subjectToShare = inflated.findViewById(R.id.subjectToShare)
+
+        buttonShare.setOnClickListener {
+            share(textToShare)
+        }
+
+        return inflated
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShareFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShareFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun share(textToShare: EditText){
+
+        val message = textToShare.text
+        val email = emailToShare.text //this has to be a valid format for an email address or gmail wont display it in the To category
+        val subject = subjectToShare.text
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, message)
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(email.toString()))
+            putExtra(Intent.EXTRA_SUBJECT, subject.toString())
+            type = "text/plain"
+            setPackage("com.google.android.gm")
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(shareIntent)
+        } else {
+            Toast.makeText(requireActivity().applicationContext, "Gmail isn't installed", Toast.LENGTH_SHORT).show()
+        }
+
     }
+
 }
