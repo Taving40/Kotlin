@@ -1,5 +1,6 @@
 package com.example.helloworld
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
 
                 R.id.nav_home -> replaceFragment(HomeFragment(), it.title.toString())
-                R.id.nav_camera -> replaceFragment(CameraFragment(), it.title.toString())
+                R.id.nav_camera -> replaceActivityCamera()
                 R.id.nav_share -> replaceFragment(ShareFragment(), it.title.toString())
 
                 R.id.nav_login -> Toast.makeText(applicationContext, "Tapped Login", Toast.LENGTH_SHORT).show()
@@ -57,6 +58,11 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun replaceActivityCamera(){
+        val intent = Intent(this@MainActivity, CameraActivity::class.java)
+        startActivity(intent)
     }
 
     private fun replaceFragment(new_fragment: Fragment, title: String){
